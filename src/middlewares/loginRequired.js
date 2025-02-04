@@ -1,6 +1,7 @@
 require("dotenv").config();
+import User from "../models/User";
 import jwt from "jsonwebtoken";
-export default (req,res,next) => {
+export default async (req,res,next) => {
     const { authorization } = req.headers;
 
     if( !authorization){
@@ -10,10 +11,20 @@ export default (req,res,next) => {
     }
 
     const[ ,token] = authorization.split(" ");
-    console.log(token);
     try{
         const dados = jwt.verify(token,process.env.TOKEN_SECRET);
-        const {id,email} = dados;
+        const { id,email } = dados;
+        const user = await User.findOne({
+            where: {
+                id,
+                email
+            }
+        });
+        if(!user){
+            return res.status(401).json({
+                errors: ["usuario invalido."],
+            });
+        }
         req.userId = id;
         req.email = email;
         return next();
