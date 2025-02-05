@@ -4,7 +4,7 @@ import loginRequired from "../middlewares/loginRequired";
 const router = new Router();
 
 //Não deveria existir
-//router.get("/",loginRequired,userController.index);
+router.get("/",loginRequired,userController.index);
 //router.get("/:id",userController.show);
 
 router.post("/",userController.store);
