@@ -4,7 +4,6 @@ import {resolve} from "path";
 dotenv.config();
 import "./database";
 import express from "express";
-import cors from "cors";
 import helmet from "helmet";
 
 import homeRoutes from "./routes/homeRoutes";
@@ -13,19 +12,6 @@ import tokenRoutes from "./routes/tokenRoutes";
 import alunoRoutes from "./routes/alunoRoutes";
 import fotoRoutes from "./routes/fotoRoutes";
 
-const whitelist = [
-    "http://localhost:3002",
-];
-
-const corsOptions = {
-    origin: function(origin,callback){
-        if(whitelist.indexOf(origin) != -1 || !origin){
-            callback(null,true);
-        }else{
-            callback(new Error("Not allowed by CORS"));
-        }
-    }
-}
 
 class App{
     constructor(){
